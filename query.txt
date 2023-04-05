@@ -1,0 +1,7 @@
+BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding
+Attention is all you need
+The Roles of Language Models and Hierarchical Models in Neural Sequence-to-Sequence Prediction
+Weighted Transformer Network for Machine Translation
+CNN Is All You Need
+Adam: A Method for Stochastic Optimization
+Sequence to Sequence Learning with Neural Networks
