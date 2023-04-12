@@ -7,7 +7,13 @@ Crawling **prior** and **derivative** papers according to the origin paper.
 - Python >= 3.8
 - selenium==4.8.3
 
+[Optional] Run a server
+- fastapi==0.95.0
+- uvicorn==0.21.1
+
 ## Get Started
+
+### CLI
 
 1. Install `Chrome` and `webdriver`.
 2. Copy `.env_default` to `.env`, and fill `CHROME_DRIVER_PATH` with your `webdriver` path in `.env` file
@@ -21,6 +27,21 @@ Crawling **prior** and **derivative** papers according to the origin paper.
     ```
     $ python main.py --query BERT
     ```
+
+### Server
+
+Navigate to the project directory, and run the command to start a server:
+```
+$ uvicorn server:app
+```
+
+After start the server successfully, you can use the command to send a POST request:
+```
+$ curl -X POST -H "Content-Type: application/json" -d '{"title":"BERT"}' http://127.0.0.1:8000/crawl
+```
+By default, it will listen on port `8000`, you can modify it to match your requirement.
+
+## Format
 
 Check the results in the `out/` folder, and the structure is like:
 ```
