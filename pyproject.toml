@@ -3,3 +3,13 @@ profile = "black"
 
 [tool.black]
 skip-string-normalization = true
+
+[tool.ruff]
+select = [
+    "E", # pycodestyle errors
+    "F", # pyflakes
+]
+ignore = [
+    "E501",  # line too long, handled by black
+    "C901",  # too complex
+]
