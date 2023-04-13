@@ -11,6 +11,14 @@ import config as cfg
 from log import getLogger
 
 
+def get_int(num):
+    try:
+        res = int(num)
+    except Exception:
+        res = 0
+    return res
+
+
 def crawl(query):
     with PaperSpider() as crawler:
         result = crawler.search(query)
@@ -126,28 +134,26 @@ class PaperSpider:
             )
         )
 
-        metadata['title'] = abstract_el.find_element(
-            By.CSS_SELECTOR, '.title_link'
-        ).get_attribute('innerHTML')
-        metadata['authors'] = abstract_el.find_element(
-            By.CSS_SELECTOR, '.metadata div div'
-        ).get_attribute('innerHTML')
-        metadata['link'] = abstract_el.find_element(
-            By.CSS_SELECTOR, '.title_link'
-        ).get_attribute('href')
-        metadata['publication'] = abstract_el.find_element(
-            By.CSS_SELECTOR, '.publication'
-        ).get_attribute('innerHTML')
-        metadata['year'] = int(metadata['publication'].strip()[:4])
+        def find_element(css, attribute='innerHTML', idx=0):
+            try:
+                res = abstract_el.find_elements(By.CSS_SELECTOR, css)[
+                    idx
+                ].get_attribute(attribute)
+            except Exception:
+                res = ''
+            return res
 
-        citations = abstract_el.find_elements(By.CSS_SELECTOR, '.flexrow .metadata')[
-            1
-        ].get_attribute('innerHTML')
-        metadata['citations'] = int(citations.strip().split()[0])
+        metadata['title'] = find_element('.title_link')
+        metadata['authors'] = find_element('.metadata div div')
+        metadata['link'] = find_element('.title_link', attribute='href')
+        metadata['publication'] = find_element('.publication')
 
-        metadata['abstract'] = abstract_el.find_element(
-            By.CSS_SELECTOR, '.abstract-text'
-        ).get_attribute('innerHTML')
+        metadata['year'] = get_int(metadata['publication'].strip()[:4])
+
+        citations = find_element('.flexrow .metadata', idx=1)
+        metadata['citations'] = get_int(citations.strip().split()[0])
+
+        metadata['abstract'] = find_element('.abstract-text')
 
         self.log.info(f">>> Extract the meta data for: {metadata['title']}")
 
