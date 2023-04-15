@@ -6,6 +6,7 @@ Crawling **prior** and **derivative** papers according to the origin paper.
 
 - Python >= 3.8
 - selenium==4.8.3
+- pytz==2023.3: set the logging timezone to `Asia/Shanghai`.
 
 [Optional] Run a server
 - fastapi==0.95.0
